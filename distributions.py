@@ -8,7 +8,7 @@ from scipy import stats
 # CLASSES #
 ###########
 
-class distribution():
+class Distribution():
     def __init__(self, obj, **kwargs):
         self.distribution_object = obj(**kwargs)
         self.params = kwargs
@@ -31,9 +31,9 @@ cov_A = [[1.25/2,0],[0,1.25/2]]
 cov_B = [[1.25/2,0],[0,1.25/2]]
 cov_C = [[1,0.5],[0.5,1.25]]
 
-class_A = distribution(stats.multivariate_normal, **{"mean": mean_A, 'cov': cov_A} )
-class_B = distribution(stats.multivariate_normal, **{"mean": mean_B, 'cov': cov_B} )
-class_C = distribution(stats.multivariate_normal, **{"mean": mean_C, 'cov': cov_C} )
+class_A = Distribution(stats.multivariate_normal, **{"mean": mean_A, 'cov': cov_A} )
+class_B = Distribution(stats.multivariate_normal, **{"mean": mean_B, 'cov': cov_B} )
+class_C = Distribution(stats.multivariate_normal, **{"mean": mean_C, 'cov': cov_C} )
 
 ##########
 # SCRIPT #
@@ -44,5 +44,5 @@ if __name__ == "__main__":
 
     arg = {"loc": 1, "scale": 2}
 
-    mydist = distribution(dist,**arg)
+    mydist = Distribution(dist,**arg)
     print(mydist.draw())

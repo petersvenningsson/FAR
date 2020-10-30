@@ -18,53 +18,24 @@ distributions = [class_A, class_B, class_C]
 distributions_colors = ['g', 'y', 'r']
 
 # Visualization params
-draw_speed = 0.001
-#############
-# FUNCTIONS #
-#############
+draw_speed = 0.5
 
-def calculate_posterior(prior, likelihoods):
-    total_likelihood = (prior*likelihoods).sum()
-    posterior = prior*likelihoods / total_likelihood
-    return posterior
+###########
+# CLASSES #
+###########
 
-##########
-# SCRIPT #
-##########
-sample_history = []
-likelihood_history = []
+class PerceptualProcessor():
+    def __init__(self, transition_matrix = None):
+        self.transition_matrix = transition_matrix
 
-belief = cls_prior
-
-fig = plt.figure()
-while True:
-    # Static artist
-    ax1 = fig.add_subplot(121)
-    for c, color in zip(distributions, distributions_colors):
-        confidence_ellipse(np.array(c.params['mean']), np.array(c.params['cov']), ax1, n_std = 2.0, facecolor='none', edgecolor=color, linewidth=1.5)
+    def calculate_posterior(self, sample, prior, distributions):
+        likelihoods = np.array([ c.likelihood(sample) for c in distributions ])
+        total_likelihood = (prior*likelihoods).sum()
+        posterior = prior*likelihoods / total_likelihood
+        return posterior
     
-    ## Dynamic artist
-    # Scatter
-    if sample_history:
-        _samples = np.array(sample_history)
-        sns.scatterplot(x=_samples[:,0], y=_samples[:,1], size = likelihood_history, ax = ax1, legend = 0)
+    def transition(self, prior):
+        assert self.transition_matrix is not None, "perceptual processor without transition matrix"
+        posterior = self.transition_matrix @ prior
+        return posterior
 
-    # Histogram
-    ax2 = fig.add_subplot(122)
-    ax2.set(ylim=(0, 1))
-    sns.barplot(x=["Correct","Proximal","Distant"], y = belief, ax = ax2, palette = distributions_colors)
-
-    # Draw
-    ax1.axis('equal')
-    fig.canvas.draw_idle()
-    plt.pause(draw_speed)
-    fig.clf()
-
-    # Generate time step
-    sample = class_A.draw()
-    likelihood = sum([c.likelihood(sample) for c in distributions])
-    likelihood_history.append(likelihood)
-    sample_history.append(sample)
-
-    # Bayesian update
-    belief = calculate_posterior(prior = belief, likelihoods = np.array([ c.likelihood(sample) for c in distributions ]))
