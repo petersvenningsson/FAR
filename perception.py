@@ -29,6 +29,9 @@ class PerceptualProcessor():
         self.transition_matrix = transition_matrix
 
     def calculate_posterior(self, sample, prior, distributions):
+        if sample is None:
+            return prior
+
         likelihoods = np.array([ c.likelihood(sample) for c in distributions ])
         total_likelihood = (prior*likelihoods).sum()
         posterior = prior*likelihoods / total_likelihood
