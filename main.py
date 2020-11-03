@@ -107,7 +107,7 @@ def render(fig, belief, collector):
         sns.scatterplot(x=actions, y=[1.3 for _ in range(len(actions))], marker="X")
         labels.append("Skipped measurements")
 
-    plt.legend(labels=labels)
+    plt.legend(labels=labels, loc = 2)
 
     # Draw
     ax1.axis("equal")
