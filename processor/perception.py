@@ -5,11 +5,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import confidence_ellipse
+from utils import confidence_ellipse, class_A, class_B, class_C
 
 sns.set_theme(style="darkgrid")
-# local
-from distributions import class_A, class_B, class_C
 
 ###########
 # GLOBALS #

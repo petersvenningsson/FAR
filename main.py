@@ -2,7 +2,7 @@
 # IMPORTS #
 ###########
 # 3rd-party
-from execution import ExecutiveProcessor
+from processor import ExecutiveProcessor
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -11,10 +11,9 @@ from scipy import stats
 sns.set_theme(style="darkgrid")
 
 # local
-from distributions import class_A, class_B, class_C
-from perception import PerceptualProcessor
-from execution import ExecutiveProcessor
-from utils import confidence_ellipse, Collector
+from utils import confidence_ellipse, Collector, class_A, class_B, class_C
+from processor import PerceptualProcessor
+from processor import ExecutiveProcessor
 
 ###########
 # GLOBALS #
@@ -62,6 +61,7 @@ def render(fig, belief, collector):
             legend=0,
         )
 
+
     # Histogram
     if belief is not None:
         ax2 = fig.add_subplot(222)
@@ -86,6 +86,8 @@ def render(fig, belief, collector):
             marker="o",
         )
         labels.append("Perception entropy")
+    ax3.set_xlabel('time')
+    ax3.set_ylabel('Entorpy (bits)')
 
     if collector.execution_entropy_history:
         sns.lineplot(
@@ -104,10 +106,10 @@ def render(fig, belief, collector):
             )
             if not b
         ]
-        sns.scatterplot(x=actions, y=[1.3 for _ in range(len(actions))], marker="X")
+        sns.scatterplot(x=actions, y=[1.3 for _ in range(len(actions))], ax=ax3, marker="X")
         labels.append("Skipped measurements")
 
-    plt.legend(labels=labels, loc = 2)
+    ax3.legend(labels=labels, loc = 2)
 
     # Draw
     ax1.axis("equal")
