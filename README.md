@@ -11,4 +11,4 @@ The method is related to rescource management in "cognative radar" and comprise:
 - If the entropy of the random variable is low then no measurement is taken - hopefully enabling the radar to perform some other useful task
 - The entropy of the categorical random variable increases over time in accordance with a transition model.
 
-![](images/visualization.jpg)
+![](images/visualization.png)
